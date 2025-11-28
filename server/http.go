@@ -18,9 +18,8 @@ func NewServer(port string) *Server {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-
-	r.Body = http.MaxBytesReader(w, r.Body, 1<<20) // 1 MiB max
-	defer r.Body.Close()                           // ensure body is closed
+	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
+	defer r.Body.Close()
 
 	if ct := r.Header.Get("Content-Type"); ct != "" && !strings.Contains(ct, "application/json") {
 		http.Error(w, "Content-Type must be application/json", http.StatusUnsupportedMediaType)
@@ -29,7 +28,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	var message LLM.Message
 	if err := json.NewDecoder(r.Body).Decode(&message); err != nil {
-		// Distinguish size errors vs bad JSON
 		if _, ok := err.(*http.MaxBytesError); ok {
 			http.Error(w, "payload too large", http.StatusRequestEntityTooLarge)
 			return
@@ -38,28 +36,25 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	prompt := LLM.ChatRequest{
-		Model: "gpt-oss:120b-cloud",
-		Messages: []LLM.Message{
-			{Role: "user", Content: message.Content},
-		},
-		Options: LLM.Options{Temperature: 0.4},
-		Format: LLM.Format{
-			Type:       "json",
-			Properties: map[string]any{"Tool": "string", "Params": "string"},
-		},
-	}
-
 	client := LLM.NewOllamaClient()
-	resp, err := client.Chat(prompt)
+	resp, err := client.Chat(LLM.Prompt(message.Content))
 	if err != nil {
 		log.Printf("LLM call failed: %v", err)
 		http.Error(w, "upstream LLM error", http.StatusBadGateway)
 		return
 	}
 
+	content := strings.TrimSpace(resp.Message.Content)
+	var tc LLM.Tool
+	var apiResp LLM.APIResponse
+
+	router([]byte(content), &tc, &apiResp, w)
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	json.NewEncoder(w).Encode(apiResp)
+
+	log.Println("🧪 LLM RAW:", content)
+	log.Printf("🧪 PARSED TOOL: %+v\n", tc)
 
 }
 

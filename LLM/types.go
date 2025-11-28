@@ -5,12 +5,7 @@ type ChatRequest struct {
 	Messages []Message `json:"messages"`
 	Options  Options   `json:"options"`
 	Stream   bool      `json:"stream"`
-	Format   Format    `json:"format"`
-}
-
-type Format struct {
-	Type       any            `json:"type"`
-	Properties map[string]any `json:"properties"`
+	Format   string    `json:"format"`
 }
 
 type Options struct {
@@ -30,4 +25,16 @@ type ChatResponse struct {
 type Message struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
+}
+
+type Tool struct {
+	Tool        string `json:"Tool"`
+	Description string `json:"Description"`
+	Params      string `json:"Params"`
+}
+
+type APIResponse struct {
+	Tool   string `json:"tool,omitempty"`
+	Result string `json:"result"`
+	Raw    string `json:"raw,omitempty"`
 }
