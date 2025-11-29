@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"orchestrator/LLM"
+	"orchestrator/tools"
 	"strings"
 	"time"
 )
@@ -45,7 +46,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	content := strings.TrimSpace(resp.Message.Content)
-	var tc LLM.Tool
+	var tc tools.Tool
 	var apiResp LLM.APIResponse
 
 	router([]byte(content), &tc, &apiResp, w)

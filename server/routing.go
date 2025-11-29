@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"orchestrator/LLM"
+	"orchestrator/tools"
 )
 
-func router(content []byte, tc *LLM.Tool, apiResp *LLM.APIResponse, w http.ResponseWriter) {
+func router(content []byte, tc *tools.Tool, apiResp *LLM.APIResponse, w http.ResponseWriter) {
 
 	if err := json.Unmarshal(content, &tc); err == nil && tc.Tool != "" {
 
@@ -14,13 +15,13 @@ func router(content []byte, tc *LLM.Tool, apiResp *LLM.APIResponse, w http.Respo
 
 		switch apiResp.Tool {
 		case "motivate_tool":
-			apiResp.Result = LLM.Motivate(tc.Params)
+			apiResp.Result = tools.Motivate(tc.Params)
 
 		case "generate_answer_tool":
-			apiResp.Result = LLM.GenerateAnswer(tc.Params)
+			apiResp.Result = tools.GenerateAnswer(tc.Params)
 
 		case "inverse_class_tool":
-			apiResp.Result = LLM.InverseClass(tc.Params)
+			apiResp.Result = tools.InverseClass(tc.Params)
 
 		case "no_tool":
 			apiResp.Result = tc.Params

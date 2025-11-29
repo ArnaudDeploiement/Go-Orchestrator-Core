@@ -27,12 +27,6 @@ type Message struct {
 	Content string `json:"content"`
 }
 
-type Tool struct {
-	Tool        string `json:"Tool"`
-	Description string `json:"Description"`
-	Params      string `json:"Params"`
-}
-
 type APIResponse struct {
 	Tool   string `json:"tool,omitempty"`
 	Result string `json:"result"`
