@@ -3,7 +3,7 @@ package LLM
 func Prompt(user string) ChatRequest {
 
 	prompt := ChatRequest{
-		Model: "llama3.1:8b",
+		Model: "mistral-nemo:latest",
 		Messages: []Message{
 			{Role: "system", Content: SystemPrompt(Tools())},
 			{Role: "user", Content: user},

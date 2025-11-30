@@ -13,3 +13,7 @@ func GenerateAnswer(param string) string {
 func InverseClass(param string) string {
 	return fmt.Sprintf("Je voudrais activer l'outil inversion de classe suite à ton propos : %s, mais Arnaud doit l'implémenter.", param)
 }
+
+func Blague(param string) string {
+	return fmt.Sprintf("Je voudrais activer l'outil blague suite à ton propos : %s, mais Arnaud doit l'implémenter.", param)
+}

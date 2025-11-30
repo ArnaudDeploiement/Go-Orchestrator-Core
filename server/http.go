@@ -46,6 +46,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	content := strings.TrimSpace(resp.Message.Content)
+
+	//Change ici pour le MAS. Récupérer le contenu de la réponse de l'API pour l'envoyer dans un canal.
+	// Les agents écouteront le canal pour récupérer le contenu de la réponse de l'API.
+
 	var tc tools.Tool
 	var apiResp LLM.APIResponse
 
