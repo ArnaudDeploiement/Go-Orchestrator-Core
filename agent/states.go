@@ -6,3 +6,10 @@ func Idle(a *Agent) StateFN {
 
 	return Idle
 }
+
+func Evaluate(a *Agent) StateFN {
+
+	a.State = "je suis en train d'évaluer"
+
+	return Evaluate
+}

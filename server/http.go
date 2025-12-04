@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"orchestrator/LLM"
-	"orchestrator/tools"
+	"orchestrator/agent"
 	"strings"
 	"time"
 )
@@ -50,16 +50,15 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	//Change ici pour le MAS. Récupérer le contenu de la réponse de l'API pour l'envoyer dans un canal.
 	// Les agents écouteront le canal pour récupérer le contenu de la réponse de l'API.
 
-	var tc tools.Tool
 	var apiResp LLM.APIResponse
-
-	router([]byte(content), &tc, &apiResp, w)
+	raw := agent.RespEndpoint(content)
+	router(&apiResp, w)
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(apiResp)
 
-	log.Println("🧪 LLM RAW:", content)
-	log.Printf("🧪 PARSED TOOL: %+v\n", tc)
+	log.Println("🧪 LLM RAW:", raw)
+	log.Println("-----------------------------------------------")
 
 }
 

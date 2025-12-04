@@ -3,7 +3,7 @@ package tools
 import "fmt"
 
 func Motivate(param string) string {
-	return fmt.Sprintf("Je voudrais activer l'outil motivation suite à ton propos: %s", "'"+param+"'"+"."+"\n Mais Arnaud doit l'implémenter. Au travail !")
+	return fmt.Sprintf("Je voudrais activer l'outil motivation suite à ton propos: %s", param)
 }
 
 func GenerateAnswer(param string) string {
@@ -16,4 +16,9 @@ func InverseClass(param string) string {
 
 func Blague(param string) string {
 	return fmt.Sprintf("Je voudrais activer l'outil blague suite à ton propos : %s, mais Arnaud doit l'implémenter.", param)
+}
+
+func NoTool(param string) string {
+	return fmt.Sprintf("%s", param)
+
 }

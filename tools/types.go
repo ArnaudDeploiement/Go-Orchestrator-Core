@@ -1,7 +1,7 @@
 package tools
 
 type Tool struct {
-	Tool        string
-	Description string
-	Params      string
+	Tool        string `json:"tool"`
+	Description string `json:"description"`
+	Params      string `json:"params"`
 }
